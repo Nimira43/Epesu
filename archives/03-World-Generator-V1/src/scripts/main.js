@@ -3,7 +3,6 @@ import { OrbitControls } from 'three/examples/jsm/Addons.js'
 import Stats from 'three/examples/jsm/libs/stats.module.js'
 import { World } from './world'
 import { createUI } from './ui'
-import { Player } from './player'
 
 const stats = new Stats()
 document.body.append(stats.dom)
@@ -31,8 +30,6 @@ const scene = new THREE.Scene()
 const world = new World()
 world.generate()
 scene.add(world)
-
-const player = new Player(scene)
 
 function setupLights() {
   const sun = new THREE.DirectionalLight()
