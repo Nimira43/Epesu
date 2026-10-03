@@ -17,14 +17,14 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap
 // renderer.shadowMap.type = THREE.ShadowMap
 document.body.appendChild(renderer.domElement)
 
-const camera = new THREE.PerspectiveCamera(
+const orbitCamera = new THREE.PerspectiveCamera(
   75,
   window.innerWidth / window.innerHeight
 )
-camera.position.set(-32, 16, -32)
+orbitCamera.position.set(-20, 20, -20)
 
-const controls = new OrbitControls(camera, renderer.domElement)
-controls.target.set(16, 0, 16)
+const controls = new OrbitControls(orbitCamera, renderer.domElement)
+controls.target.set(16, 16, 16)
 controls.update()
 
 const scene = new THREE.Scene()
@@ -61,18 +61,28 @@ let previousTime = performance.now()
 function animate() {
   let currentTime = performance.now()
   let dt = (currentTime - previousTime) / 1000
+  
   requestAnimationFrame(animate)
   player.applyInputs(dt)
-  renderer.render(scene, player.camera)
+  
+  renderer.render(
+    scene,
+    player.controls.isLocked
+      ? player.camera
+      : orbitCamera
+  )
+  
   stats.update()
 
   previousTime = currentTime
 }
 
 window.addEventListener('resize', () => {
-  camera.aspect = window.innerHeight / window.innerHeight
-  camera.updateProjectionMatrix()
-  renderer.setSize(window.innerWidth, window,innerHeight)
+  orbitCamera.aspect = window.innerWidth / window.innerHeight
+  orbitCamera.updateProjectionMatrix()
+  player.camera.aspect = window.innerWidth / window.innerHeight
+  player.camera.updateProjectionMatrix()
+  renderer.setSize(window.innerWidth, window.innerHeight)
 })
 
 setupLights()
