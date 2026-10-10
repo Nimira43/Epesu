@@ -26,7 +26,6 @@ orbitCamera.position.set(-20, 20, -20)
 const controls = new OrbitControls(orbitCamera, renderer.domElement)
 controls.target.set(16, 16, 16)
 controls.update()
-
 const scene = new THREE.Scene()
 const world = new World()
 world.generate()
